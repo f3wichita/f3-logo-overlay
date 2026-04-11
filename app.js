@@ -269,17 +269,6 @@
     drawCanvas();
   });
 
-  document.getElementById('btn-download').addEventListener('click', () => {
-    canvas.toBlob(blob => {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'f3-photo.png';
-      a.click();
-      URL.revokeObjectURL(url);
-    }, 'image/png');
-  });
-
   document.getElementById('btn-share').addEventListener('click', async () => {
     try {
       const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
@@ -292,8 +281,15 @@
       if (err.name === 'AbortError') return;
       console.log('Share API not available, falling back to download');
     }
-    // Fallback to download
-    document.getElementById('btn-download').click();
+    // Fallback for desktop browsers without Web Share API
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'f3-photo.jpg';
+      a.click();
+      URL.revokeObjectURL(url);
+    }, 'image/jpeg', 0.92);
   });
 
   document.getElementById('btn-start-over').addEventListener('click', () => {
