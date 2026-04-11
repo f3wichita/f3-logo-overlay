@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>F3 Logo Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <span class="placeholder-logo">F3 ENC</span>
+  </div>
+
+  <!-- Screen 1: Site List -->
+  <div id="site-list-screen" class="screen">
+    <div id="site-list" class="site-list"></div>
+  </div>
+
+  <!-- Screen 2: Take Photo / Upload -->
+  <div id="photo-screen" class="screen">
+    <div id="selected-site-name" class="selected-site-name"></div>
+    <div class="photo-actions">
+      <button id="btn-camera" class="btn btn-primary">📷 Take Photo</button>
+      <button id="btn-upload" class="btn btn-primary">📁 Upload Photo</button>
+    </div>
+    <button id="btn-back-to-sites" class="btn btn-back">← Back to Sites</button>
+    <input type="file" id="camera-input" accept="image/*" capture="environment">
+    <input type="file" id="upload-input" accept="image/*">
+  </div>
+
+  <!-- Screen 3: Editor -->
+  <div id="editor-screen" class="screen">
+    <div class="canvas-container">
+      <canvas id="overlay-canvas"></canvas>
+    </div>
+    <div class="editor-toolbar">
+      <button id="btn-reset-logo" class="btn btn-secondary">Reset Logo</button>
+      <button id="btn-download" class="btn btn-primary">Download</button>
+      <button id="btn-share" class="btn btn-primary">Share</button>
+      <button id="btn-start-over" class="btn btn-secondary">Start Over</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

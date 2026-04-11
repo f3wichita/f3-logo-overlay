@@ -1,0 +1,262 @@
+/* F3 Logo Overlay — Global Styles */
+
+:root {
+  --f3-dark: #1a1a2e;
+  --f3-blue: #16213e;
+  --f3-accent: #0f3460;
+  --f3-white: #ffffff;
+  --f3-light-gray: #f5f5f5;
+  --f3-mid-gray: #e0e0e0;
+  --f3-text: #1a1a2e;
+  --header-height: 80px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--f3-white);
+  color: var(--f3-text);
+}
+
+/* ── Header ── */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background: var(--f3-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 10px;
+}
+
+.header img {
+  max-height: 60px;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.header .placeholder-logo {
+  color: var(--f3-white);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* ── Screens ── */
+.screen {
+  display: none;
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Site List (Screen 1) ── */
+#site-list-screen {
+  overflow: hidden;
+}
+
+.site-list {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px;
+}
+
+.site-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  margin: 6px 0;
+  background: var(--f3-light-gray);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--f3-text);
+  font-family: inherit;
+}
+
+.site-item:active {
+  background: var(--f3-mid-gray);
+}
+
+.site-item .site-logo-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: var(--f3-white);
+  flex-shrink: 0;
+}
+
+.site-item .site-logo-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--f3-accent);
+  color: var(--f3-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Photo Screen (Screen 2) ── */
+#photo-screen {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.selected-site-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--f3-dark);
+  text-align: center;
+}
+
+.photo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.btn:active {
+  opacity: 0.8;
+}
+
+.btn-primary {
+  background: var(--f3-dark);
+  color: var(--f3-white);
+}
+
+.btn-secondary {
+  background: var(--f3-light-gray);
+  color: var(--f3-text);
+}
+
+.btn-back {
+  background: none;
+  color: var(--f3-accent);
+  font-size: 16px;
+  padding: 12px;
+}
+
+/* ── Editor Screen (Screen 3) ── */
+#editor-screen {
+  overflow: hidden;
+}
+
+.canvas-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 8px;
+  background: #f0f0f0;
+}
+
+.canvas-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  touch-action: none;
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background: var(--f3-white);
+  border-top: 1px solid var(--f3-mid-gray);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.editor-toolbar .btn {
+  padding: 14px 18px;
+  font-size: 15px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Hidden inputs ── */
+#camera-input,
+#upload-input {
+  display: none;
+}
+
+/* ── Loading / empty states ── */
+.loading-msg,
+.error-msg {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  color: #888;
+}
+
+.error-msg {
+  color: #c0392b;
+}
+
+/* ── Responsive ── */
+@media (min-width: 600px) {
+  .photo-actions {
+    flex-direction: row;
+  }
+
+  .photo-actions .btn {
+    flex: 1;
+  }
+
+  .site-item {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
