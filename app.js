@@ -80,6 +80,7 @@
   function selectSite(site) {
     selectedSite = site;
     selectedSiteName.textContent = site.name;
+    sessionStorage.setItem('selectedSite', site.name);
     showScreen(photoScreen);
   }
 
@@ -300,6 +301,7 @@
     photoImage = null;
     logoImg = null;
     selectedSite = null;
+    sessionStorage.removeItem('selectedSite');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     showScreen(siteListScreen);
   });
@@ -310,6 +312,18 @@
   });
 
   // ── Init ──
-  showScreen(siteListScreen);
-  loadSites();
+  // Restore selected site if page reloaded (Android camera causes this)
+  async function init() {
+    await loadSites();
+    const savedSite = sessionStorage.getItem('selectedSite');
+    if (savedSite && sites.length > 0) {
+      const site = sites.find(s => s.name === savedSite);
+      if (site) {
+        selectSite(site);
+        return;
+      }
+    }
+    showScreen(siteListScreen);
+  }
+  init();
 })();
