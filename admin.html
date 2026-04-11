@@ -44,10 +44,22 @@
       padding: 12px; border-bottom: 1px solid var(--light);
     }
     .site-row:last-child { border-bottom: none; }
-    .site-row img { width: 40px; height: 40px; object-fit: contain; border-radius: 6px; background: var(--light); }
     .site-row .name { flex: 1; font-weight: 600; }
+    .btn-view { background: var(--blue); color: var(--white); }
     .site-row .btn { padding: 8px 14px; font-size: 13px; }
     .empty-msg { color: #888; font-size: 14px; padding: 12px; text-align: center; }
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85); z-index: 1000;
+      align-items: center; justify-content: center; cursor: pointer;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      text-align: center; padding: 20px;
+    }
+    .modal-content img { max-width: 80vw; max-height: 70vh; object-fit: contain; }
+    .modal-content .modal-name { color: #fff; font-size: 20px; font-weight: 600; margin-top: 16px; }
+    .modal-content .modal-hint { color: #999; font-size: 13px; margin-top: 8px; }
     .actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
     #logo-preview { max-width: 80px; max-height: 80px; margin-bottom: 12px; display: none; border-radius: 6px; }
     .info { background: #eef; padding: 12px; border-radius: 8px; font-size: 13px; color: #335; margin-bottom: 20px; line-height: 1.5; }
@@ -85,6 +97,14 @@
 
   <div class="actions">
     <button class="btn btn-primary" id="btn-export">Export sites.json</button>
+  </div>
+
+  <div class="modal-overlay" id="logo-modal">
+    <div class="modal-content">
+      <img id="modal-logo" src="" alt="">
+      <div class="modal-name" id="modal-name"></div>
+      <div class="modal-hint">Click anywhere to close</div>
+    </div>
   </div>
 
   <script>
@@ -126,17 +146,18 @@
         const row = document.createElement('div');
         row.className = 'site-row';
 
-        if (site.logo) {
-          const img = document.createElement('img');
-          img.src = site.logo;
-          img.alt = site.name;
-          row.appendChild(img);
-        }
-
         const name = document.createElement('span');
         name.className = 'name';
         name.textContent = site.name;
         row.appendChild(name);
+
+        if (site.logo) {
+          const viewBtn = document.createElement('button');
+          viewBtn.className = 'btn btn-view';
+          viewBtn.textContent = 'View';
+          viewBtn.addEventListener('click', () => showLogoModal(site));
+          row.appendChild(viewBtn);
+        }
 
         const removeBtn = document.createElement('button');
         removeBtn.className = 'btn btn-danger';
@@ -195,6 +216,21 @@
       a.download = 'sites.json';
       a.click();
       URL.revokeObjectURL(url);
+    });
+
+    // Logo modal
+    const modal = document.getElementById('logo-modal');
+    const modalLogo = document.getElementById('modal-logo');
+    const modalName = document.getElementById('modal-name');
+
+    function showLogoModal(site) {
+      modalLogo.src = site.logo;
+      modalName.textContent = site.name;
+      modal.classList.add('active');
+    }
+
+    modal.addEventListener('click', () => {
+      modal.classList.remove('active');
     });
 
     renderList();
