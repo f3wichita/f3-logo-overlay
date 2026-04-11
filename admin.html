@@ -62,6 +62,12 @@
     .modal-content .modal-hint { color: #999; font-size: 13px; margin-top: 8px; }
     .actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
     #logo-preview { max-width: 80px; max-height: 80px; margin-bottom: 12px; display: none; border-radius: 6px; }
+    .region-preview-row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin: 12px 0; }
+    .region-preview-item { text-align: center; }
+    .region-preview-item canvas { border-radius: 12px; border: 1px solid var(--gray); }
+    .region-preview-item .label { font-size: 12px; color: #888; margin-top: 4px; }
+    .region-status { font-size: 13px; color: #888; margin-top: 8px; }
+    .region-export-btns { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
     .info { background: #eef; padding: 12px; border-radius: 8px; font-size: 13px; color: #335; margin-bottom: 20px; line-height: 1.5; }
   </style>
 </head>
@@ -93,6 +99,28 @@
     <img id="logo-preview" alt="Preview">
     <br>
     <button class="btn btn-primary" id="btn-add-site">Add Site</button>
+  </div>
+
+  <div class="section">
+    <h2>4. Region Logo</h2>
+    <p style="font-size:13px; color:#888; margin-bottom:12px;">Upload your region's logo. This generates the header image and home screen icons.</p>
+    <label for="region-logo">Region Logo (PNG)</label>
+    <input type="file" id="region-logo" accept="image/png">
+    <div id="region-previews" class="region-preview-row" style="display:none;">
+      <div class="region-preview-item">
+        <canvas id="preview-header" width="200" height="200"></canvas>
+        <div class="label">Header Logo</div>
+      </div>
+      <div class="region-preview-item">
+        <canvas id="preview-icon" width="80" height="80"></canvas>
+        <div class="label">App Icon</div>
+      </div>
+    </div>
+    <p id="region-status" class="region-status"></p>
+    <div class="region-export-btns" id="region-export-btns" style="display:none;">
+      <button class="btn btn-primary" id="btn-export-header">Download Header Logo</button>
+      <button class="btn btn-primary" id="btn-export-icons">Download App Icons</button>
+    </div>
   </div>
 
   <div class="actions">
@@ -216,6 +244,97 @@
       a.download = 'sites.json';
       a.click();
       URL.revokeObjectURL(url);
+    });
+
+    // Region logo
+    let regionLogoImg = null;
+    const regionInput = document.getElementById('region-logo');
+    const regionPreviews = document.getElementById('region-previews');
+    const regionStatus = document.getElementById('region-status');
+    const regionExportBtns = document.getElementById('region-export-btns');
+
+    regionInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          regionLogoImg = img;
+          renderRegionPreviews();
+          regionPreviews.style.display = 'flex';
+          regionExportBtns.style.display = 'flex';
+          regionStatus.textContent = 'Previews generated. Download the files and add them to your site.';
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function renderRegionPreviews() {
+      // Header preview (just the logo as-is)
+      const hCanvas = document.getElementById('preview-header');
+      const hCtx = hCanvas.getContext('2d');
+      hCanvas.width = 200; hCanvas.height = 200;
+      hCtx.fillStyle = '#000000';
+      hCtx.fillRect(0, 0, 200, 200);
+      const hScale = Math.min(180 / regionLogoImg.width, 180 / regionLogoImg.height);
+      const hW = regionLogoImg.width * hScale;
+      const hH = regionLogoImg.height * hScale;
+      hCtx.drawImage(regionLogoImg, (200 - hW) / 2, (200 - hH) / 2, hW, hH);
+
+      // Icon preview
+      const iCanvas = document.getElementById('preview-icon');
+      const iCtx = iCanvas.getContext('2d');
+      iCanvas.width = 80; iCanvas.height = 80;
+      iCtx.fillStyle = '#000000';
+      iCtx.fillRect(0, 0, 80, 80);
+      const iScale = Math.min(62 / regionLogoImg.width, 62 / regionLogoImg.height);
+      const iW = regionLogoImg.width * iScale;
+      const iH = regionLogoImg.height * iScale;
+      iCtx.drawImage(regionLogoImg, (80 - iW) / 2, (80 - iH) / 2, iW, iH);
+    }
+
+    function generateIcon(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, size, size);
+      const logoSize = size * 0.78;
+      const scale = Math.min(logoSize / regionLogoImg.width, logoSize / regionLogoImg.height);
+      const w = regionLogoImg.width * scale;
+      const h = regionLogoImg.height * scale;
+      ctx.drawImage(regionLogoImg, (size - w) / 2, (size - h) / 2, w, h);
+      return canvas;
+    }
+
+    function downloadCanvas(canvas, filename) {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+
+    document.getElementById('btn-export-header').addEventListener('click', () => {
+      if (!regionLogoImg) { alert('Upload a region logo first.'); return; }
+      // Export the original PNG as the header logo
+      const a = document.createElement('a');
+      a.href = regionLogoImg.src;
+      a.download = 'f3-enc-logo.png';
+      a.click();
+    });
+
+    document.getElementById('btn-export-icons').addEventListener('click', () => {
+      if (!regionLogoImg) { alert('Upload a region logo first.'); return; }
+      // Download all three icon sizes with a slight delay between each
+      downloadCanvas(generateIcon(180), 'apple-touch-icon.png');
+      setTimeout(() => downloadCanvas(generateIcon(192), 'icon-192.png'), 300);
+      setTimeout(() => downloadCanvas(generateIcon(512), 'icon-512.png'), 600);
     });
 
     // Logo modal
