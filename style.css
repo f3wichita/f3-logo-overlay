@@ -82,10 +82,8 @@ html, body {
 }
 
 .site-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
+  display: block;
+  padding: 18px 24px;
   margin: 6px 0;
   background: var(--f3-light-gray);
   border-radius: 12px;
@@ -94,7 +92,7 @@ html, body {
   border: none;
   width: 100%;
   text-align: left;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
   color: var(--f3-text);
   font-family: inherit;
@@ -102,29 +100,6 @@ html, body {
 
 .site-item:active {
   background: var(--f3-mid-gray);
-}
-
-.site-item .site-logo-thumb {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  object-fit: contain;
-  background: var(--f3-white);
-  flex-shrink: 0;
-}
-
-.site-item .site-logo-placeholder {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: var(--f3-accent);
-  color: var(--f3-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  flex-shrink: 0;
 }
 
 /* ── Photo Screen (Screen 2) ── */

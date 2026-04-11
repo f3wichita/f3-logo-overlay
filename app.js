@@ -65,22 +65,7 @@
       const btn = document.createElement('button');
       btn.className = 'site-item';
 
-      if (site.logo) {
-        const img = document.createElement('img');
-        img.src = site.logo;
-        img.alt = site.name;
-        img.className = 'site-logo-thumb';
-        btn.appendChild(img);
-      } else {
-        const ph = document.createElement('div');
-        ph.className = 'site-logo-placeholder';
-        ph.textContent = site.name.charAt(0).toUpperCase();
-        btn.appendChild(ph);
-      }
-
-      const nameSpan = document.createElement('span');
-      nameSpan.textContent = site.name;
-      btn.appendChild(nameSpan);
+      btn.textContent = site.name;
 
       btn.addEventListener('click', () => selectSite(site));
       siteListContainer.appendChild(btn);
@@ -297,10 +282,10 @@
 
   document.getElementById('btn-share').addEventListener('click', async () => {
     try {
-      const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
-      const file = new File([blob], 'f3-photo.png', { type: 'image/png' });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
+      const file = new File([blob], 'f3-photo.jpg', { type: 'image/jpeg', lastModified: Date.now() });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: 'F3 Photo' });
+        await navigator.share({ files: [file] });
         return;
       }
     } catch (err) {
