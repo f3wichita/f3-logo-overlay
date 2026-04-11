@@ -33,7 +33,7 @@ html, body {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background: var(--f3-dark);
+  background: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
