@@ -22,104 +22,107 @@ camera roll, or send it anywhere.
 
 ---
 
-## For the Region's Site Q (Managing Logos)
+## Setting This Up for Your Region
 
-Your region has a file called `sites.json` that contains all of your workout
-site names and logos. You manage it with a simple tool called `admin.html`.
+Everything runs in the browser. No server, no database, no build tools.
+Fork this repo, customize it with your region's logos, and deploy.
 
-### Adding or Removing Sites
+### What's in the Repo
 
-1. Download `admin.html` to your computer (don't put it on the website — it's
-   a local tool)
-2. Double-click it to open in your browser
-3. Click "Load existing sites.json" and pick your current `sites.json` file
-4. To **add a site**: type the name, upload the logo PNG, click "Add Site"
-5. To **remove a site**: click the red "Remove" button next to it
-6. Click **Export** to download your updated `sites.json`
-7. Upload the new `sites.json` to your website (replacing the old one)
+```
+index.html            ← The app (this is what PAX use)
+style.css             ← Styles
+app.js                ← App logic (camera, canvas, sharing)
+sites.json            ← Your workout sites + logos (built with admin.html)
+admin.html            ← Local tool for managing sites.json (not hosted)
+f3-enc-logo.png       ← Header logo (replace with your region's)
+manifest.json         ← Home screen app name and icons
+apple-touch-icon.png  ← iPhone home screen icon
+icon-192.png          ← Android home screen icon
+icon-512.png          ← Android splash screen icon
+```
 
-### Logo Tips
+### Step 1: Fork the Repo
 
-- Use PNG files with transparent backgrounds (they look best on photos)
-- Square logos work best
-- Any size works — the app will resize them automatically
+1. Click the **Fork** button at the top of this page
+2. You now have your own copy to customize
+
+### Step 2: Add Your Region's Logos
+
+The `admin.html` file is a simple tool that builds your `sites.json`.
+You run it on your computer — it never goes on your website.
+
+1. Clone your fork to your computer
+2. Open `admin.html` by double-clicking it (opens in your browser)
+3. For a fresh setup, skip the "Load" step — just start adding sites
+4. For each workout site: type the name, upload the logo PNG, click **Add Site**
+5. Click **View** next to any site to preview the logo on a dark background
+6. When you're done, click **Export** — this downloads your `sites.json`
+7. Move the exported `sites.json` into your repo folder (replacing the
+   starter one)
+
+**Logo tips:**
+- PNG with transparent background works best (shows clean on any photo)
+- Square logos look the best
+- Any size is fine — the app resizes automatically
+
+### Step 3: Add Your Region's Branding
+
+1. Replace `f3-enc-logo.png` with your region's logo (this shows in the
+   header bar at the top of the app)
+2. Replace the icon files with your logo on a dark background:
+   - `apple-touch-icon.png` (180x180)
+   - `icon-192.png` (192x192)
+   - `icon-512.png` (512x512)
+3. Edit `manifest.json` and change the name if you want (defaults to
+   "F3 Photo")
+
+### Step 4: Deploy
+
+**GitHub Pages (easiest if you forked the repo):**
+
+1. Go to your fork's **Settings → Pages**
+2. Set source to **GitHub Actions**
+3. Push to main — your site will be live at `username.github.io/f3-logo-overlay`
+4. Every push to main auto-deploys
+
+The repo already includes the GitHub Pages workflow file, so it just works.
+
+**Other free options:**
+
+- **Netlify:** Go to [app.netlify.com/drop](https://app.netlify.com/drop),
+  drag your folder in. Done.
+- **Cloudflare Pages:** Create a free account → Workers & Pages → Create →
+  Pages → Upload assets. Drag your files in. Done.
+- **Existing website:** Create a folder (e.g. `/photo/`), upload all files.
+  App lives at `yoursite.com/photo/`.
+
+### Step 5: Share the Link
+
+Send your PAX the URL. Tell them to add it to their home screen.
+That's it.
 
 ---
 
-## Setting This Up for Your Region
+## Updating Sites Later
 
-The whole app is just 5 files. Drop them onto any website and it works.
+When you need to add or remove a workout site:
 
-```
-index.html          ← The app
-style.css           ← How it looks
-app.js              ← How it works
-sites.json          ← Your sites and logos (you build this with admin.html)
-f3-enc-logo.png     ← Your region's logo for the header
-```
+1. Open `admin.html` on your computer
+2. Load your current `sites.json` (from your repo folder)
+3. Add or remove sites
+4. Export the updated `sites.json`
+5. Replace the old `sites.json` in your repo and push
+6. Site updates automatically
 
-You'll also want these for the home screen icon:
-```
-manifest.json
-apple-touch-icon.png
-icon-192.png
-icon-512.png
-```
+---
 
-### Step 1: Get Your Files Ready
+## HTTPS Required for Camera
 
-1. Download all the files from this repository
-2. Replace `f3-enc-logo.png` with your region's logo
-3. Replace the icon files (`apple-touch-icon.png`, `icon-192.png`,
-   `icon-512.png`) with your logo on a dark background
-4. Open `admin.html` on your computer and build your `sites.json` with
-   your region's workout sites and logos
-5. Edit `manifest.json` and change the name if you want (it says "F3 Photo"
-   by default)
+The camera feature only works over HTTPS (the padlock in the browser).
+GitHub Pages, Netlify, and Cloudflare Pages all provide HTTPS automatically.
 
-### Step 2: Put It on a Website
-
-Pick whichever option works for you:
-
-#### Option A: Cloudflare Pages (Free, Recommended)
-
-1. Create a free account at [cloudflare.com](https://www.cloudflare.com)
-2. Go to Workers & Pages → Create → Pages → Upload assets
-3. Drag all your files in
-4. Done — you'll get a URL like `your-project.pages.dev`
-
-#### Option B: Netlify (Free)
-
-1. Go to [app.netlify.com/drop](https://app.netlify.com/drop)
-2. Drag your folder of files onto the page
-3. Done — you'll get a URL like `random-name.netlify.app`
-4. You can set a custom name in site settings
-
-#### Option C: GitHub Pages (Free)
-
-1. Create a GitHub account and a new repository
-2. Upload all your files to the repository
-3. Go to Settings → Pages → set source to "main" branch
-4. Done — you'll get a URL like `username.github.io/repo-name`
-
-#### Option D: Drop into an Existing Website
-
-If your region already has a website (WordPress, Squarespace, etc.):
-
-1. Create a new folder on your site (e.g., `/photo/`)
-2. Upload all the files into that folder
-3. The app will be at `yoursite.com/photo/`
-
-For WordPress specifically: use a file manager plugin or FTP to upload
-the files to a folder in your site's root directory.
-
-### Important: HTTPS Required
-
-The camera feature only works over HTTPS (the secure padlock in the browser).
-All of the hosting options above provide HTTPS automatically. If you're
-dropping files into an existing site, make sure your site already uses HTTPS.
-
-If someone can't access the camera, they can still use the upload button
+If someone can't access the camera, they can still use the **Upload** button
 to pick a photo from their camera roll.
 
 ---
