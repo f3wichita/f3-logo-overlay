@@ -127,6 +127,14 @@ to pick a photo from their camera roll.
 
 ---
 
+## License
+
+This project is open source under the [MIT License](LICENSE). Use it, fork it,
+modify it, share it — no permission needed. If your region builds something
+cool with it, let us know.
+
+---
+
 ## Questions?
 
 This was built by **F3 Short Sale** (F3 ENC) and his AI assistant.
