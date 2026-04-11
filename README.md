@@ -129,5 +129,8 @@ to pick a photo from their camera roll.
 
 ## Questions?
 
-This was built for F3 ENC. If your region sets it up and runs into issues,
-reach out to the PAX who shared it with you.
+This was built by **F3 Short Sale** (F3 ENC) and his AI assistant.
+
+If your region sets it up and runs into issues, reach out:
+- **Email:** f3shortsale@gmail.com
+- **Phone/Text:** (252) 253-2200

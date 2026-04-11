@@ -1,4 +1,8 @@
-/* F3 Logo Overlay — App Logic */
+/*
+ * F3 Photo — Site Logo Overlay Tool
+ * Created by F3 Short Sale (F3 ENC) and his AI assistant
+ * Contact: f3shortsale@gmail.com | (252) 253-2200
+ */
 
 (function () {
   'use strict';
