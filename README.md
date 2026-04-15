@@ -27,7 +27,7 @@ camera roll, or send it anywhere.
 Everything runs in the browser. No server, no database, no build tools.
 Fork this repo, customize it with your region's logos, and deploy.
 
-### What's in the Repo
+### What's in the Repo!
 
 ```
 index.html            ← The app (this is what PAX use)
